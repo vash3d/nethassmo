@@ -1,5 +1,4 @@
-# NetHassmo
-v. 0.9
+# NetHassmo [![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://https://github.com/vash3d/nethassmo/releases/)
 
 
 
