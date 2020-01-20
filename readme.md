@@ -1,4 +1,4 @@
-# NetHassmo [![GitHub release](https://img.shields.io/github/release/vash3d/nethassmo.svg)](https://https://github.com/vash3d/nethassmo/releases/)
+# NetHassmo ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/vash3d/nethassmo?include_prereleases)
 
 
 
