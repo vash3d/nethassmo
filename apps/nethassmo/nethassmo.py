@@ -1,3 +1,5 @@
+# version 0.9.1
+
 import appdaemon.plugins.hass.hassapi as hass
 import requests
 import time
