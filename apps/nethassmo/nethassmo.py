@@ -150,7 +150,8 @@ class Nethassmo(hass.Hass):
                 # self.log("Home ID: {}".format(home_id))
                 persons = response.json()["body"]['homes'][0]['persons']
                 for person in persons:
-                    self.config['PERSONS'][person['pseudo']] = person['id']    
+                    if "pseudo" in person:
+                        self.config['PERSONS'][person['pseudo']] = person['id']
                 
                 with open(self.cfg_file, 'w') as configfile:
                     self.config.write(configfile)
@@ -218,7 +219,7 @@ class Nethassmo(hass.Hass):
                         self.log("Token renewd!")
                         self.config['TOKEN']['token'] = access_token
 
-                    with open(self.file, 'w') as configfile:
+                    with open(self.cfg_file, 'w') as configfile:
                         self.config.write(configfile)
 
             except requests.exceptions.HTTPError as error:
