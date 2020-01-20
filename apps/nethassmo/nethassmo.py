@@ -293,7 +293,7 @@ class Nethassmo(hass.Hass):
             for camera in cameras:
                 if (new == 'off'):
                     if (camera['status'] == 'off'):
-                        self.log("Turning ON monitoring... (this make take few seconds)")
+                        self.log("Turning ON monitoring. This make take few seconds...")
                         try:
                             response = requests.post(camera['vpn_url'] + "/command/changestatus?status=on")
                             response.raise_for_status()
@@ -305,7 +305,7 @@ class Nethassmo(hass.Hass):
                         self.log("Camera is already ON")
                 elif (new == 'on'):
                     if (camera['status'] == 'on'):
-                        self.log("Turning OFF monitoring... (this make take few seconds)")
+                        self.log("Turning OFF monitoring. This make take few seconds...")
                         try:
                             response = requests.post(camera['vpn_url'] + "/command/changestatus?status=off")
                             response.raise_for_status()
