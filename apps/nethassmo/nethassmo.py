@@ -11,7 +11,6 @@ class Nethassmo(hass.Hass):
     def initialize(self):
         # READING CONFIG FILE
         self.path = os.path.dirname(os.path.abspath(__file__))
-        self.file = self.path + "/nethassmo.ini"
         self.cfg_file = self.path + "/nethassmo.cfg"
         self.config = ConfigParser(delimiters=(':'))
         self.config.read(self.cfg_file)
