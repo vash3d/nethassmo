@@ -21,6 +21,7 @@ class Nethassmo(hass.Hass):
         self.client = self.config['ACCESS']['client']
         self.secret = self.config['ACCESS']['secret']
         self.data_error = False
+
         # CHECKING ACCESS DATA IN CONFIG FILE
         if (self.user == ""):
             self.error("Username not found.", level = "ERROR")
@@ -52,16 +53,18 @@ class Nethassmo(hass.Hass):
             self.log("Netatmo Access Data: OK")
             self.get_token()
         
-
-        self.persons = self.args['persons']
-        if self.persons == []:
-            self.error("Add persons' entity to monitor in file apps.yaml", level = "ERROR")
-        else:
-            for person in self.persons:
-                self.listen_state(self.set_state, entity=person)
+        # CHECKING IF OPTION PERSON IS PRESENT AND PERSONS SENSOR ARE SPECIFIED 
+        if "persons" in self.args:
+            self.persons = self.args['persons']
+            if self.persons == []:
+                self.error("Add persons' entity to monitor in file apps.yaml", level = "ERROR")
+            else:
+                for person in self.persons:
+                    self.listen_state(self.set_state, entity=person)
         
-        guest_mode = self.args['guest_mode_switch']
-        if guest_mode != "input_boolean.not_set_yet":
+        # CHECKING IF OPTION GUEST MODE IS PRESENT AND ENTITY IS SPECIFIED
+        if "guest_mode_switch" in self.args:
+            guest_mode = self.args['guest_mode_switch']
             self.listen_state(self.guestmode, guest_mode)
 
 

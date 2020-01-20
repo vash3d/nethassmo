@@ -1,6 +1,7 @@
-# NetHassmo ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/vash3d/nethassmo?include_prereleases)
+# NetHassmo 
+![GitHub release (latest by date including pre-releases?)](https://img.shields.io/github/v/release/vash3d/nethassmo?include_prereleases&style=for-the-badge)
 
-
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
 
 
@@ -8,7 +9,7 @@
 
 Using [HACS](https://github.com/custom-components/hacs), to install and track updates, is reccomended.  
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+
 
 
 Alternatively, you can download all the files inside the `apps` directory to your local `apps` directory, then add the configuration to enable the `nethassmo` module.
@@ -18,8 +19,8 @@ Alternatively, you can download all the files inside the `apps` directory to you
 This app listen to (user-defined) person entities (and consequently to the associated device tracker) and set Home or Away the corresponding person in Netatmo Welcome camera.
 This is usefull if you don't want to share device location with Netatmo and stick to Home Assistant device tracking.
 
-There's is also a function to activate/deactivate the camera monitoring using a switch in Home Assistant.
-It's called "GuestMode" cause it's particularly usefull when you have guests at home to avoid dozens of notification of unknown faces.
+Whit this app you can also activate/deactivate the camera monitoring using a switch in Home Assistant.
+This option it's called "GuestMode" cause it's particularly usefull when you have guests at home to avoid dozens of notification of unknown faces.
 
 ## Configuration
 
@@ -47,7 +48,7 @@ key | required | description
 Save the file.
 
 Next, you can add nethassmo configuration to your apps.yaml file.  
-Insert module and class as usual then you have to specify the person sensor the app should listen to. Optionally you can specify an entity (e.g. input_boolean) to control "Guest Mode".
+Insert module and class as usual then, if you want to monitor persons you have to specify the Home Assistant person sensor the app should listen to. Optionally you can specify an entity (e.g. input_boolean) to control "Guest Mode".
 
 ```yaml
 nethassmo:
@@ -61,11 +62,11 @@ key | required | type | default | description
 -- | -- | -- | -- | --
 `module` | True | string | | The module name of the app.
 `class` | True | string | | The name of the Class.
-`persons` | True | list | | The person entities to monitor.
+`persons` | False | list | | The person entities to monitor.
 `guest_mode_switch` | False | string | | The entity_id you want to use to turn monitoring on/off. Usually an input boolean
 
-Save the file and restart Appdaemon if it not reload the apps.  
-The first time Nethassmo is executed it will use the credentials you have previously added for requesting to Netatmo an access token, and your home and persons data.  
+Save the file and restart Appdaemon if it's not reloading automatically.  
+The first time Nethassmo is executed it will use the credentials you have previously provided for requesting an access token, and your home and persons data from Netatmo.
 All the data will be then added to `nethassmo.cfg`
 
 ```ini
@@ -94,14 +95,14 @@ sensor_john : ${PERSONS:john}
 sensor_jane : ${PERSONS:jane}
 sensor_name_3 : ${PERSONS:name_3}
 ```
-<u> **IMPORTANT** </u>  
-Pay attention at [SENSORS] section.  
+<u> **>>> IMPORTANT <<<** </u>  
+Pay attention at `[SENSORS]` section.  
 The `key` is based on the friendly name of the monitored person.name from Home Assistant (the one you have specified in apps.yaml).  
 The corresponding value is a reference to the value of `[PERSONS]` section.
-By default Nethassmo app assumes that persons' names in Home Assistant and the ones from Netatmo Welcome camera are the same.  
+By default Nethassmo app assumes that persons' friendly names in Home Assistant and the ones from Netatmo Welcome camera are the same.  
 <u>**If that's not the case you have to manually change the value.**</u>
 
-Taking as an example the configuration above, if in Netatmo Welcome camera the user john had been configured as Johnny instead of John the resulting auto-configuration would had been
+Taking as an example the configuration above, if in Netatmo Welcome camera the user John had been configured as Johnny but in Home Assistant the person sensor frindly name is John, the resulting default configuration would had been
 ```ini
 [PERSONS]
 johnny : not6424b-29c3-4820-79n4-ec9573b68h27
@@ -115,14 +116,14 @@ sensor_john : ${PERSONS:john}
 sensor_jane : ${PERSONS:jane}
 sensor_name_3 : ${PERSONS:name_3}
 ```
-So in this case you have to modify `${PERSONS:john}` with `${PERSONS:johnny}`
+So in this case you have to modify `${PERSONS:john}` with `${PERSONS:johnny}` for the app to work.
 
 ## Issues/Feature Requests
 
 Please feel free to open any issues or feature requests!
 
 ## Note
-Theoretically the app should work with multiple cameras but at the moment I can only test it with the one I have.  
+Theoretically the app should work with multiple cameras but currently I can test it with the only one I have.  
 If you want you can help me to add a second one ;)
 
 <a href="https://www.buymeacoffee.com/infiniteloop" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
