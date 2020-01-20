@@ -1,5 +1,3 @@
-# version 0.9.1
-
 import appdaemon.plugins.hass.hassapi as hass
 import requests
 import time
@@ -14,7 +12,7 @@ class Nethassmo(hass.Hass):
         # READING CONFIG FILE
         self.path = os.path.dirname(os.path.abspath(__file__))
         self.cfg_file = self.path + "/nethassmo.cfg"
-        self.config = ConfigParser(delimiters=(':'))
+        self.config = ConfigParser(delimiters=(':', '='))
         self.config.read(self.cfg_file)
         self.user = self.config['ACCESS']['user']
         self.pswd = self.config['ACCESS']['pswd']
@@ -81,7 +79,7 @@ class Nethassmo(hass.Hass):
     #################################################
 
     def get_token(self):
-        self.config = ConfigParser(delimiters=(':'))
+        self.config = ConfigParser(delimiters=(':', '='))
         self.config.read(self.cfg_file)
         if not self.config.has_option('TOKEN', 'token'): # REQUSTING TOKEN IF NOT ALREADY PRESENT
             username = self.config['ACCESS']['user']
@@ -128,7 +126,7 @@ class Nethassmo(hass.Hass):
     #################################################
 
     def get_home_data(self, *args):
-        self.config = ConfigParser(allow_no_value=True, delimiters=(':'))
+        self.config = ConfigParser(allow_no_value=True, delimiters=(':', '='))
         self.config.read(self.cfg_file)
         
         if not self.config.has_section('HOME'): # REQUSTING HOME DATA IF NOT ALREADY PRESENT
@@ -187,7 +185,7 @@ class Nethassmo(hass.Hass):
     #################################################
 
     def refresh_token(self, *args):
-        self.config = ConfigParser()
+        self.config = ConfigParser(delimiters=(':', '='))
         self.config.read(self.cfg_file)
 
         if self.config.has_option('TOKEN', 'refresh'):
@@ -227,7 +225,7 @@ class Nethassmo(hass.Hass):
 
 
     def set_state(self, entity, attributes, old, new, kwargs):
-        self.config = ConfigParser(interpolation=ExtendedInterpolation())
+        self.config = ConfigParser(delimiters=(':', '='), interpolation=ExtendedInterpolation())
         self.config.read(self.cfg_file)
         token = self.config['TOKEN']['token']
         home = self.config['HOME']['home_id']
@@ -278,8 +276,8 @@ class Nethassmo(hass.Hass):
     #################################################
 
     def guestmode(self, entity, attributes, old, new, kwargs):
-        self.config = ConfigParser()
-        self.config.read(self.file)
+        self.config = ConfigParser(delimiters=(':', '='))
+        self.config.read(self.cfg_file)
 
         token = self.config['TOKEN']['token']
 
@@ -295,11 +293,11 @@ class Nethassmo(hass.Hass):
             for camera in cameras:
                 if (new == 'off'):
                     if (camera['status'] == 'off'):
+                        self.log("Turning ON monitoring... (this make take few seconds)")
                         try:
                             response = requests.post(camera['vpn_url'] + "/command/changestatus?status=on")
                             response.raise_for_status()
                             status = response.json()["status"]
-                            self.log("Turning ON monitoring...")
                             self.log("Response: {}".format(status.upper()))
                         except requests.exceptions.HTTPError as error:
                             self.log(error.response.status_code, error.response.text)
@@ -307,11 +305,11 @@ class Nethassmo(hass.Hass):
                         self.log("Camera is already ON")
                 elif (new == 'on'):
                     if (camera['status'] == 'on'):
+                        self.log("Turning OFF monitoring... (this make take few seconds)")
                         try:
                             response = requests.post(camera['vpn_url'] + "/command/changestatus?status=off")
                             response.raise_for_status()
                             status = response.json()["status"]
-                            self.log("Turning OFF monitoring...")
                             self.log("Response: {}".format(status.upper()))
                         except requests.exceptions.HTTPError as error:
                             self.log(error.response.status_code, error.response.text)
