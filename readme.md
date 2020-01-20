@@ -42,6 +42,7 @@ key | required | description
 `pswd:`| true | the password of your netatmo dev account
 `client:`| true | the client id from your app page
 `secret:`| true | the client secret from your app page
+
 Save the file.
 
 Next, you can add nethassmo configuration to your apps.yaml file.  
@@ -122,5 +123,3 @@ Please feel free to open any issues or feature requests!
 ## Note
 Theoretically the app should work with multiple cameras but at the moment I can only test it with the one I have.  
 If you want you can help me to add a second one ;)
-
-<br><a href="https://www.buymeacoffee.com/aneisch" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-black.png" width="150px" height="35px" alt="Buy Me A Coffee" style="height: 35px !important;width: 150px !important;" ></a>
