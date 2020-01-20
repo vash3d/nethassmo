@@ -1,24 +1,26 @@
 # NetHassmo
-## Automate Welcome Camera presence and monitoring.
+v. 0.9
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
 
 
 
 ## Installation
 
-Using [HACS](https://github.com/custom-components/hacs), to install and track updates, is reccomended.
+Using [HACS](https://github.com/custom-components/hacs), to install and track updates, is reccomended.  
+
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+
 
 Alternatively, you can download all the files inside the `apps` directory to your local `apps` directory, then add the configuration to enable the `nethassmo` module.
 
 ## How it works
 
 This app listen to (user-defined) person entities (and consequently to the associated device tracker) and set Home or Away the corresponding person in Netatmo Welcome camera.
-This is especially usefull to avoid manually setting you out when you leave home.
+This is usefull if you don't want to share device location with Netatmo and stick to Home Assistant device tracking.
 
-There's is also a "bonus" function to activate/deactivate the camera monitoring.
-It's called GuestMode cause it's particularly usefull when you have guests at home to avoid dozens of notification of unknown faces.
+There's is also a function to activate/deactivate the camera monitoring using a switch in Home Assistant.
+It's called "GuestMode" cause it's particularly usefull when you have guests at home to avoid dozens of notification of unknown faces.
 
 ## Configuration
 
@@ -123,3 +125,5 @@ Please feel free to open any issues or feature requests!
 ## Note
 Theoretically the app should work with multiple cameras but at the moment I can only test it with the one I have.  
 If you want you can help me to add a second one ;)
+
+<a href="https://www.buymeacoffee.com/infiniteloop" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
