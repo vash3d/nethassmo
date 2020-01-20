@@ -1,4 +1,4 @@
-# NetHassmo [![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://https://github.com/vash3d/nethassmo/releases/)
+# NetHassmo [![GitHub release](https://img.shields.io/github/release/vash3d/nethassmo.svg)](https://https://github.com/vash3d/nethassmo/releases/)
 
 
 
