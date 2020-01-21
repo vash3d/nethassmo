@@ -28,32 +28,20 @@ To use this app you need an Access Token from Netatmo.
 Browse to https://dev.netatmo.com and login with your account or create one.
 Create a new app, give it a name and a description.  
 You have to fill `data protection officer name` and `data protection officer email` fields in order to move on (you can simply put your name and email here).  
-When you click on SAVE you obtain a `client id` and a `client secret` code. Keep this page open.
+When you click on SAVE you obtain a `client id` and a `client secret` code. Write them down or keep the page open.
 
-In nethassmo folder open nethassmo.cfg with your favorite code editor and fill all the required fields.  
-```ini
-[ACCESS]
-user : youremail@email.com
-pswd : yourpassword
-client : 4f3ed70814549fb7f98b5t72
-secret : D8NzNVhdLMcy0QeTsin3tCcjmu0HGfZme9hKoEXkR
-```
-key | required | description
--- | -- | --
-`user:`| true | the username of your netatmo dev account (email)
-`pswd:`| true | the password of your netatmo dev account
-`client:`| true | the client id from your app page
-`secret:`| true | the client secret from your app page
-
-Save the file.
-
-Next, you can add nethassmo configuration to your apps.yaml file.  
-Insert module and class as usual then, if you want to monitor persons you have to specify the Home Assistant person sensor the app should listen to. Optionally you can specify an entity (e.g. input_boolean) to control "Guest Mode".
+Now you can add nethassmo configuration to your apps.yaml file.  
+Insert module and class as usual then, you can add your Netatmo credentials directly in the file or reference them from the secret.yaml file.  
+If you want to monitor persons you have to specify the Home Assistant person sensor the app should listen to. Then you can specify an entity (e.g. input_boolean) to control "Guest Mode".
 
 ```yaml
 nethassmo:
   module: nethassmo
   class: Nethassmo
+  user: youremail@email.com
+  pswd: yourpassword
+  client: 4f3ed70814549fb7f98b5t72
+  secret: D8NzNVhdLMcy0QeTsin3tCcjmu0HGfZme9hKoEXkR
   persons: ['person.john', 'person.jane', 'person.name_3']
   guest_mode_switch: input_boolean.guestmode
 ```
@@ -62,20 +50,18 @@ key | required | type | default | description
 -- | -- | -- | -- | --
 `module` | True | string | | The module name of the app.
 `class` | True | string | | The name of the Class.
+`user:`| True | string | | the username of your netatmo dev account (email)
+`pswd:`| true | string | | the password of your netatmo dev account
+`client:`| true | string | | the client id from your app page
+`secret:`| true | string | | the client secret from your app page
 `persons` | False | list | | The person entities to monitor.
 `guest_mode_switch` | False | string | | The entity_id you want to use to turn monitoring on/off. Usually an input boolean
 
 Save the file and restart Appdaemon if it's not reloading automatically.  
 The first time Nethassmo is executed it will use the credentials you have previously provided for requesting an access token, and your home and persons data from Netatmo.
-All the data will be then added to `nethassmo.cfg`
+All the data will be then added to the file `nethassmo.cfg` in nethassmo app directory.
 
 ```ini
-[ACCESS]
-user : youremail@email.com
-pswd : yourpassword
-client : 4f3ed70814549fb7f98b5t72
-secret : D8NzNVhdLMcy0QeTsin3tCcjmu0HGfZme9hKoEXkR
-
 [TOKEN]
 token : 6c7810f49ad10534d29b51e7|ff78959ebeee5fb611a4aba1a37588f5
 refresh : 6c7810f49ad10534d29b51e7|fb1d195a5d58cfe6e61287c3a3bfc619

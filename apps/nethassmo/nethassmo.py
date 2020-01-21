@@ -14,39 +14,40 @@ class Nethassmo(hass.Hass):
         self.cfg_file = self.path + "/nethassmo.cfg"
         self.config = ConfigParser(delimiters=(':', '='))
         self.config.read(self.cfg_file)
-        self.user = self.config['ACCESS']['user']
-        self.pswd = self.config['ACCESS']['pswd']
-        self.client = self.config['ACCESS']['client']
-        self.secret = self.config['ACCESS']['secret']
+      
         self.data_error = False
 
         # CHECKING ACCESS DATA IN CONFIG FILE
-        if (self.user == ""):
-            self.error("Username not found.", level = "ERROR")
+        if "user" not in self.args:
+            self.error("You must enter your Netatmo Username.")
             self.data_error = True
         else:
             self.log("Reading username... OK")
-        
-        if (self.pswd == ""):
-            self.error("Password not found.", level = "ERROR")
+            self.user = self.args['user']
+
+        if "pswd" not in self.args:
+            self.error("You must enter your Netatmo Password.")
             self.data_error = True
         else:
             self.log("Reading password... OK")
+            self.pswd = self.args['pswd']
 
-        if (self.client == ""):
-            self.error("Client ID not found.", level = "ERROR")
+        if "client" not in self.args:
+            self.error("You must enter your Netatmo Client ID.")
             self.data_error = True
         else:
-            self.log("Reading client ID... OK")
+            self.log("Reading Client ID... OK")
+            self.client = self.args['client']
 
-        if (self.secret == ""):
-            self.error("Client secret not found.", level = "ERROR")
+        if "secret" not in self.args:
+            self.error("You must enter your Netatmo Client Secret.")
             self.data_error = True
         else:
-            self.log("Reading client secret... OK")
+            self.log("Reading Client Secret... OK")
+            self.secret = self.args['secret']
             
         if self.data_error == True:
-            self.error("Please fill [ACCESS] section in configuration file with your data.", level = "ERROR")
+            self.error("Please provide your Netatmo credential.", level = "ERROR")
         else:
             self.log("Netatmo Access Data: OK")
             self.get_token()
@@ -82,15 +83,11 @@ class Nethassmo(hass.Hass):
         self.config = ConfigParser(delimiters=(':', '='))
         self.config.read(self.cfg_file)
         if not self.config.has_option('TOKEN', 'token'): # REQUSTING TOKEN IF NOT ALREADY PRESENT
-            username = self.config['ACCESS']['user']
-            pswd = self.config['ACCESS']['pswd']
-            client_id = self.config['ACCESS']['client']
-            client_secret = self.config['ACCESS']['secret']
             payload = {'grant_type': 'password',
-                    'username': username,
-                    'password': pswd,
-                    'client_id': client_id,
-                    'client_secret': client_secret,
+                    'username': self.user,
+                    'password': self.pswd,
+                    'client_id': self.client,
+                    'client_secret': self.secret,
                     'scope': 'read_camera write_camera access_camera'}
             self.log("Requesting Token...")
             try:
@@ -190,8 +187,8 @@ class Nethassmo(hass.Hass):
 
         if self.config.has_option('TOKEN', 'refresh'):
             self.log("Refreshing Token validity...")
-            client_id = self.config['ACCESS']['client']
-            client_secret = self.config['ACCESS']['secret']
+            client_id = self.client
+            client_secret = self.secret
             token = self.config['TOKEN']['token']
             refresh = self.config['TOKEN']['refresh']
 
@@ -216,13 +213,19 @@ class Nethassmo(hass.Hass):
                     else:
                         self.log("Token renewd!")
                         self.config['TOKEN']['token'] = access_token
-
+                        self.config['TOKEN']['refresh'] = refresh_token
                     with open(self.cfg_file, 'w') as configfile:
                         self.config.write(configfile)
 
             except requests.exceptions.HTTPError as error:
                 self.log(error.response.status_code, error.response.text)
 
+
+    #################################################
+    
+    #           set_state FUNCIONN 
+
+    #################################################
 
     def set_state(self, entity, attributes, old, new, kwargs):
         self.config = ConfigParser(delimiters=(':', '='), interpolation=ExtendedInterpolation())
