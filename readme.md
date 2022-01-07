@@ -6,7 +6,7 @@
 ## Warning
 
 Unfortunately I have not had time to maintain this release, so it may not work reliably anymore (if installation trough HACS does not work try manually).
-There is now an official integration that provides the same functions and much more.
+There is now an [official integration](https://www.home-assistant.io/integrations/netatmo/) that provides the same functions and much more.
 The only thing you can do more with my app is to disable the monitoring through home assistant (manually or via an automation).
 
 ## Installation
