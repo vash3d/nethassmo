@@ -3,7 +3,11 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
+## Warning
 
+Unfortunately I have not had time to maintain this release, so it may not work reliably anymore (if installation trough HACS does not work try manually).
+There is now an official integration that provides the same functions and much more.
+The only thing you can do more with my app is to disable the monitoring through home assistant (manually or via an automation).
 
 ## Installation
 
